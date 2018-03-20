@@ -48,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
             new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-
+                    percent = progress / 100.0;
+                    double tip = billAmount * percent;
+                    double total = billAmount + tip;
+                    tipTextView.setText(currencyFormat.format(tip));
+                    totalTextView.setText(currencyFormat.format(total));
+                    percentTextView.setText(percentFormat.format(percent));
                 }
 
                 @Override
@@ -70,7 +75,20 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                    try{
+                        billAmount = Double.parseDouble(charSequence.toString()) / 100;
+                        double tip = billAmount * percent;
+                        double total = billAmount + tip;
+                        tipTextView.setText(currencyFormat.format(tip));
+                        totalTextView.setText(currencyFormat.format(total));
+                        amountTextView.setText(currencyFormat.format(billAmount));
+                    }
+                    catch (NumberFormatException e){
+                        billAmount = 0;
+                        tipTextView.setText(currencyFormat.format(billAmount));
+                        amountTextView.setText(currencyFormat.format(billAmount));
+                        totalTextView.setText(currencyFormat.format(billAmount));
+                    }
                 }
 
                 @Override
@@ -78,4 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
+
+
 }
